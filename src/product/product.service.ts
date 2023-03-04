@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { from, Observable } from 'rxjs';
 import { Product } from 'src/entity/product.entity';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { CreateProductDto } from './dto/create.product.dto';
+import { UpdateProductDto } from './dto/update.product.dto';
+
 
 @Injectable()
 export class ProductService {
@@ -11,13 +14,38 @@ export class ProductService {
         private productRepository: Repository<Product>
     ){}
 
-    async productCreate(dto: CreateProductDto): Promise<Product> {
-        const product = await this.productRepository.create(dto);
-        return await this.productRepository.save(product)
+    async createProduct(dto: CreateProductDto): Promise<Product> {
+        try {
+            const product = await this.productRepository.create(dto);
+            return await this.productRepository.save(product)
+        } catch (error) {
+            throw error
+        }
     }
 
-    async productAll(): Promise<Product[]> {
-        const products = await this.productRepository.find();
-        return products
-      }
+    async getAllProduct(): Promise<Product[]> {
+        try {
+            const products = await this.productRepository.find();
+            return products
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getOneProduct(id: number): Promise<Product> {
+        try {
+            return await this.productRepository.findOneBy({id});
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async updateProduct(id: number, product: UpdateProductDto): Promise<Observable<UpdateResult>> {
+        try {
+            const result = from( this.productRepository.update(id, {...product}))
+            return result
+        } catch (error) {
+            throw error
+        }
+    }
 }
