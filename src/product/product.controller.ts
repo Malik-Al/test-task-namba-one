@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Product } from 'src/entity/product.entity';
@@ -11,6 +12,8 @@ import { ProductService } from './product.service';
 export class ProductController {
     constructor(private productService: ProductService){}
 
+    @ApiOperation({summary: 'create product'})
+    @ApiResponse({status: 201, type: Product})
     @UseGuards(JwtAuthGuard)
     @Post()
     async create(@Body() dto: CreateProductDto) {
@@ -21,6 +24,8 @@ export class ProductController {
     }
     
 
+    @ApiOperation({summary: 'find all products'})
+    @ApiResponse({status: 200, type: [Product]})
     @UseGuards(JwtAuthGuard)
     @Get()
     async getAll() {
@@ -28,6 +33,9 @@ export class ProductController {
       return {success: true, data: products}
     }
 
+
+    @ApiOperation({summary: 'find one product'})
+    @ApiResponse({status: 200, type: Product})
     @UseGuards(JwtAuthGuard)
     @Get(':id')
     async getOne(@Param('id') id: number) {
@@ -38,6 +46,8 @@ export class ProductController {
     }
 
 
+    @ApiOperation({summary: 'update product'})
+    @ApiResponse({status: 200, type: Product})
     @UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(
@@ -47,5 +57,18 @@ export class ProductController {
             const result = await this.productService.updateProduct(id, product);
             return result
         }
+    
+        
+    @ApiOperation({summary: 'delete product'})
+    @ApiResponse({status: 200, type: Product})
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    async delete(@Param('id') id: number) {
+        const product = await this.productService.deleteProduct(id);
+        return product 
+        ? {success: true, message: `Успешно удален product c id: ${id}`} 
+        : {success: false, message: `Не получилось удалить product c id: ${id}`}
+    }
+    
   
 }

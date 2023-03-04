@@ -48,4 +48,10 @@ export class ProductService {
             throw error
         }
     }
+
+    async deleteProduct(id: number) {
+        const deleteUser = await this.productRepository.delete(id);
+        return deleteUser.affected;
+      }
+    
 }
