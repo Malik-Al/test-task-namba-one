@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Product } from 'src/entity/product.entity';
 import { UpdateResult } from 'typeorm';
 import { CreateProductDto } from './dto/create.product.dto';
@@ -10,6 +11,7 @@ import { ProductService } from './product.service';
 export class ProductController {
     constructor(private productService: ProductService){}
 
+    @UseGuards(JwtAuthGuard)
     @Post()
     async create(@Body() dto: CreateProductDto) {
       const product = await this.productService.createProduct(dto);
@@ -17,13 +19,16 @@ export class ProductController {
       ? {success: true, message: 'Успешно создался product'} 
       : {success: false, message: 'Не получилось создать продукт'}
     }
+    
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     async getAll() {
       const products = await this.productService.getAllProduct();
       return {success: true, data: products}
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     async getOne(@Param('id') id: number) {
       const product = await this.productService.getOneProduct(id);
@@ -32,6 +37,8 @@ export class ProductController {
       : {success: false, message: 'Не получилось найти product'}
     }
 
+
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(
         @Param('id') id: number,
