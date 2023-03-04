@@ -10,6 +10,6 @@ export class User {
   login: string;
 
   @Column()
-  password: number;
+  password: string;
 
 }

@@ -3,12 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './product/product.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entity/product.entity';
-import { UserService } from './user/user.service';
-import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { User } from './entity/user.entity';
 
 @Module({
   imports: [
@@ -22,14 +19,14 @@ import { AuthModule } from './auth/auth.module';
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRESS_PASSWORD,
     database: process.env.POSTGRES_DB,
-    entities: [Product],
+    entities: [Product, User],
     synchronize: true,
   }),
     ProductModule,
     UserModule,
     AuthModule,
   ],
-  controllers: [UserController, AuthController],
-  providers: [UserService, AuthService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
