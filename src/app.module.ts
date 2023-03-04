@@ -3,6 +3,12 @@ import { ConfigModule } from '@nestjs/config';
 import { ProductModule } from './product/product.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entity/product.entity';
+import { UserService } from './user/user.service';
+import { UserController } from './user/user.controller';
+import { UserModule } from './user/user.module';
+import { AuthController } from './auth/auth.controller';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,8 +26,10 @@ import { Product } from './entity/product.entity';
     synchronize: true,
   }),
     ProductModule,
+    UserModule,
+    AuthModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [UserController, AuthController],
+  providers: [UserService, AuthService],
 })
 export class AppModule {}
