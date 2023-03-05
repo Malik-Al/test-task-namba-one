@@ -44,3 +44,8 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Swagger REST API
+
+[Swagger API](http://localhost:3000/api/docs)
+

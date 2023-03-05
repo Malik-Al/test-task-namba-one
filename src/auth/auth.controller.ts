@@ -13,16 +13,19 @@ export class AuthController {
     @ApiOperation({summary: 'login'})
     @ApiResponse({status: 200, type: User})
     @Post('/login')
-    login(@Body() userDto: CreateUserDto){
-        return this.authService.login(userDto)
+    async login(@Body() userDto: CreateUserDto){
+        const result = await this.authService.login(userDto);
+        return {success: true, data: result} 
+
     }
 
     @ApiOperation({summary: 'registration'})
     @ApiResponse({status: 200, type: User})
     @UsePipes(ValidationPipe)
     @Post('/registration')
-    registration(@Body() userDto: CreateUserDto){
-        return this.authService.registration(userDto)
+    async registration(@Body() userDto: CreateUserDto){
+        const result = await this.authService.registration(userDto)
+        return {success: true, data: result} 
     }
 
 }
