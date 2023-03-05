@@ -50,8 +50,12 @@ export class ProductService {
     }
 
     async deleteProduct(id: number) {
-        const deleteUser = await this.productRepository.delete(id);
-        return deleteUser.affected;
+        try {
+            const deleteUser = await this.productRepository.delete(id);
+            return deleteUser.affected;
+        } catch (error) {
+            throw error
+        }
       }
     
 }

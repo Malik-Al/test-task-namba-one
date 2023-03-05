@@ -55,8 +55,8 @@ export class ProductController {
         @Body() product: Product
         ): Promise<Observable<UpdateResult>> {
             const result = await this.productService.updateProduct(id, product);
-            return result
-        }
+            return result 
+        }ш
     
         
     @ApiOperation({summary: 'delete product'})
