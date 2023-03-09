@@ -1,13 +1,13 @@
-FROM node:12.13-alpine
+FROM node:latest as alpine
 
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
+WORKDIR /user/src/app
 
 COPY . .
 
-COPY ./dist ./dist
+RUN npm i
 
-CMD ["npm", "run", "start"]
+RUN npm run build --prod
+
+USER node
+
+CMD ["npm", "run", "start:prod"]

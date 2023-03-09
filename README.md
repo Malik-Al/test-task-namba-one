@@ -32,13 +32,7 @@
 $ npm install
 ```
 
-## Running Postgres 
-```bash
-$ docker-compose up --build
-
-```
-
-## Running the app
+## Running the app local
 
 ```bash
 # development
@@ -51,9 +45,15 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+
+## Running docker-compose 
+```bash
+$ docker-compose up --build
+
+```
 ## Swagger REST API
 
-[Swagger API](http://localhost:5000/api/docs)
+[Swagger API](http://localhost:3000/api/docs)
 
 # Все запросы API product 
 # может сделать только авторизованный пользователь по токену
